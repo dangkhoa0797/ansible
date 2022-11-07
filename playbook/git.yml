@@ -1,0 +1,17 @@
+---
+- hosts: "{{ HostNameManager }}"
+  ignore_unreachable: yes
+  ignore_errors: yes
+  remote_user: root
+  vars_files:
+    - variables.yml
+  tasks:
+    - name: remove old git
+      shell: rm -rf /home/setup
+
+    - name: Clone a github repository git.dttt.vn
+      git:
+        repo: "https://{{Usergit}}:{{PassWordgit}}@git.dttt.vn/gitadmin/ansible.git"
+        dest: /home/setup
+        clone: yes
+        update: yes

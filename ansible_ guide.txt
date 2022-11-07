@@ -1,0 +1,57 @@
+A. Thiết lập tài khoản root ubuntu khi mới cài đặt
+sudo -i
+sudo passwd root
+nano /etc/ssh/sshd_config #PermitRootLogin prohibit-password --> PermitRootLogin yes
+systemctl restart ssh
+
+B. lấy code ansible về
+
+git clone -b ubuntu22 https://git.dttt.vn/gitadmin/ansible.git
+
+cd ansible/
+
+1. Cài đặt ansible
+#cài trực tiếp: yêu cầu linux hỗ trợ python3 trở lên (ubuntu 20.xx trở lên)
+. install.sh
+chọn cài đặt ansible
+
+2. thiết lập ssh đến các server
+# copy keygen tới máy được điều khiển
+Nhập ip các máy vào server.txt mỗi ip 1 dòng
+ctrl + X --> Y --> Enter để lưu
+
+Sau đó nhập password của các máy
+
+3. Đăng ký máy được điều khiển
+#Lưu ý khi đặt tên group không được để trùng nhau với kể cả tên host, không để ký tự đặc biệt
+# đăng ký thông tin máy được điều khiển vào file >> /etc/ansible/hosts theo mẫu sau
+[tên_group]
+<tên host> ansible_host=<ip máy host> ansible_port=22 ansible_user=root
+# VD:
+ansible ansible_host=192.168.253.140 ansible_port=22 ansible_user=root
+[reachable]
+ubuntu201 ansible_host=192.168.253.138 ansible_port=22 ansible_user=root
+[worker]
+ubuntu202 ansible_host=192.168.253.139 ansible_port=22 ansible_user=root
+
+4. chạy playbook
+./menu.py
+
+Chọn cài cụm một nút hay nhiều nút
+
+
+# ssh-keygen -R $IP    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!
+vi /etc/ansible/ansible.cfg
+hostname
+hostname -I
+cat /etc/*release
+
+# Đặt tên mới cho server
+hostnamectl set-hostname <new_name> 
+
+    deploy:
+      replicas: 1
+      update_config:
+        order: stop-first
+      placement:
+        constraints: [node.hostname == server70]

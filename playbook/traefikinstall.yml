@@ -1,0 +1,33 @@
+---
+- hosts: "{{ HostInstallTraefik }}"
+  ignore_unreachable: yes
+  ignore_errors: yes
+  remote_user: root
+  vars_files:
+    - variables.yml
+  tasks:
+#    - name: install jsondiff pyyaml
+#      pip:
+#        name:
+#          - jsondiff
+#          - pyyaml
+    - name: Create a network traefik_main
+      docker_network:
+        name: traefik_main
+        driver: overlay
+        attachable: yes
+    - name: Deploy stack from a compose file traefik
+      docker_stack:
+        state: present
+        name: traefik
+        compose:
+          - /home/setup/traefik.yml
+      
+      tags: traefik
+
+    - name: registering..
+      shell: |
+        http POST :9000/api/users/admin/init Username="admin" Password="{{ PassWordPortainer }}"
+        http POST :9000/api/auth Username="admin" Password="{{ PassWordPortainer }}"
+      
+      tags: dkp 

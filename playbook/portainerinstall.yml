@@ -1,0 +1,62 @@
+---
+- hosts: "{{ HostInstallPortainer }}"
+  ignore_unreachable: yes
+  ignore_errors: yes
+  remote_user: root
+  vars_files:
+    - variables.yml
+  tasks:
+
+#    - name: Clone a github repository git.dttt.vn
+#      git:
+#        repo: "https://{{Usergit}}:{{PassWordgit}}@git.dttt.vn/gitadmin/ansible.git"
+#        dest: /home/setup
+#        clone: yes
+#        update: yes
+#        single_branch: yes
+#        version: master
+      
+#      tags: git
+
+    - name: This module will replace all instances of a pattern within a file
+      ansible.builtin.replace:
+        path: /home/setup/portainer-agent-stack.yml
+        regexp: 'data_of_docker'
+        replace: '{{ data_of_docker }}'
+
+#    - name: install jsondiff pyyaml
+#      pip:
+#        name:
+#          - jsondiff
+#          - pyyaml
+
+    - name: Deploy stack from a compose file portainer-agent-stack.yml
+      docker_stack:
+        state: present
+        name: portainer
+        compose:
+          - /home/setup/portainer-agent-stack.yml
+      
+      tags: portainer
+      
+#    - name: Sleep for 20 seconds and continue with play
+#      ansible.builtin.wait_for:
+#        timeout: 20 
+#      
+#    - name: registering portainer
+#      shell: |
+#        http POST :9000/api/users/admin/init Username="admin" Password="{{ PassWordPortainer }}"
+#        http POST :9000/api/auth Username="admin" Password="{{ PassWordPortainer }}"
+#      
+#      tags: dkp 
+
+#    - name: Sleep for 10 seconds and continue with play
+#      ansible.builtin.wait_for:
+#        timeout: 10
+#
+#    - name: try re-registering portainer
+#      shell: |
+#        http POST :9000/api/users/admin/init Username="admin" Password="{{ PassWordPortainer }}"
+#        http POST :9000/api/auth Username="admin" Password="{{ PassWordPortainer }}"
+#      
+#      tags: dkp

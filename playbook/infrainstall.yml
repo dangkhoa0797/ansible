@@ -1,0 +1,73 @@
+---
+- hosts: all
+  ignore_unreachable: yes
+  ignore_errors: yes
+  remote_user: root
+  vars_files:
+    - variables.yml
+  tasks:
+    - name: pull an image infra
+#      when: inventory_hostname in groups['manager']
+      docker_image:
+        name: "{{item}}"
+        source: pull     
+      loop:
+        - dockerhub.dttt.vn/etcdkeeper:latest
+        - dockerhub.dttt.vn/imagemagick:latest
+        - dockerhub.dttt.vn/documentserver:3.0
+#      delegate_to: "{{ HostNameManager }}"
+# or
+#      delegate_to: "{{item}}"
+#      delegate_facts: True
+#      loop: "{{groups['manager']}}"
+      tags: images
+
+---
+- hosts: "{{ HostInstallInfra }}"
+  ignore_unreachable: yes
+  ignore_errors: yes
+  remote_user: root
+  vars_files:
+    - variables.yml
+  tasks:
+#    - name: install jsondiff pyyaml
+#      pip:
+#        name:
+#          - jsondiff
+#          - pyyaml     
+
+    - name: Create a volume
+      docker_volume:
+        name: "{{item}}"
+      loop:
+        - mongo_data
+        - rabbitmq_data
+        - redis_data
+        - etcd_data
+        - sqlserver_data
+      
+      tags: volume
+
+    - name: Create config redis.conf (from a file on the control machine)
+      docker_config:
+        name: redis.conf
+        data: user root on allkeys allchannels allcommands >{{redisPassWord}}
+
+          user default off
+        state: present
+
+    - name: Create a network infrastructure
+      docker_network:
+        name: infrastructure
+        driver: overlay
+        attachable: yes
+      
+      tags: netw
+
+    - name: Deploy stack from a compose file infrastructure
+      docker_stack:
+        state: present
+        name: infrastructure
+        compose:
+          - /home/setup/infrastructure.yml
+      tags: infra 
