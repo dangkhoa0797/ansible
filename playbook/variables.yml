@@ -2,14 +2,14 @@
 HostNameManager: leader
 HostNameOrGroupReachable: reachable
 HostNameOrGroupWorker: worker
-HostInstallPortainer: leader
-HostInstallTraefik: leader
-HostInstallInfra: leader
+#HostInstallPortainer: leader
+#HostInstallTraefik: leader
+#HostInstallInfra: leader
 
 data_of_docker: home
 
 # chon mat khau se dang ky cho portainer
-PassWordPortainer: XViD{e(jV$sAirD
+PassWordPortainer: XV1D{e(jaV$sAirD
 
 #Dang nhap vao gitlab.dttt.vn
 Usergit: khoahd

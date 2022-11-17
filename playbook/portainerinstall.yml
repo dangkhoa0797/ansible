@@ -1,5 +1,5 @@
 ---
-- hosts: "{{ HostInstallPortainer }}"
+- hosts: "{{ HostNameManager }}"
   ignore_unreachable: yes
   ignore_errors: yes
   remote_user: root

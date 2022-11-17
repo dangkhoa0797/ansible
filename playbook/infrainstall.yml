@@ -22,8 +22,7 @@
 #      loop: "{{groups['manager']}}"
       tags: images
 
----
-- hosts: "{{ HostInstallInfra }}"
+- hosts: "{{ HostNameManager }}"
   ignore_unreachable: yes
   ignore_errors: yes
   remote_user: root

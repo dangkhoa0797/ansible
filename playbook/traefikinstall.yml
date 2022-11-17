@@ -1,5 +1,5 @@
 ---
-- hosts: "{{ HostInstallTraefik }}"
+- hosts: "{{ HostNameManager }}"
   ignore_unreachable: yes
   ignore_errors: yes
   remote_user: root
@@ -25,9 +25,9 @@
       
       tags: traefik
 
-    - name: registering..
-      shell: |
-        http POST :9000/api/users/admin/init Username="admin" Password="{{ PassWordPortainer }}"
-        http POST :9000/api/auth Username="admin" Password="{{ PassWordPortainer }}"
-      
-      tags: dkp 
+#    - name: registering..
+#      shell: |
+#        http POST :9000/api/users/admin/init Username="admin" Password="{{ PassWordPortainer }}"
+#        http POST :9000/api/auth Username="admin" Password="{{ PassWordPortainer }}"
+#      
+#      tags: dkp 
