@@ -131,19 +131,20 @@
         reauthorize: yes      
       tags: login      
       
-    - name: Copy the folder from master to client
-      copy: src=/home/token/ dest=/home
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: /home/token/
+        dest: /home
+        owner: root
+        group: root
+        mode: '0777'
       tags: worker
-      
-        
+          
     - name: remove the error character
       shell: sed -n -i -e '/docker/,$p' /home/worker.sh
       tags: worker
     - name: remove the error character
       shell: sed "s/^[ \t]*//" -i /home/worker.sh
-      tags: worker
-    - name: cap quyen thuc thi 
-      shell: chmod 777 /home/worker.sh
       tags: worker
     - name: join worker docker swarm
       shell: /home/worker.sh

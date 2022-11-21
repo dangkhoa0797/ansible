@@ -128,8 +128,13 @@
         reauthorize: yes      
       tags: login
 
-    - name: Copy the folder from master to client
-      copy: src=/home/token/ dest=/home
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: /home/token/
+        dest: /home
+        owner: root
+        group: root
+        mode: '0777'
       tags: manager    
 
 #    - name: Remove a swarm
@@ -141,9 +146,6 @@
       tags: manager
     - name: remove the error character
       shell: sed "s/^[ \t]*//" -i /home/manager.sh
-      tags: manager
-    - name: cap quyen thuc thi 
-      shell: chmod a+x /home/manager.sh
       tags: manager
     - name: join manager(Reachable) docker swarm
       shell: /home/manager.sh
