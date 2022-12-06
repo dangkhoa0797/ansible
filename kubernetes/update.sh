@@ -1,3 +1,3 @@
 sudo apt update
-sudo apt -y full-upgrade
-[ -f /var/run/reboot-required ] && sudo reboot -f
+DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
+DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade  
