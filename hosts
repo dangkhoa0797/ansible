@@ -1,10 +1,5 @@
-#save and update
-[leader]
-manager1 ansible_host=192.168.253.140 ansible_port=22 ansible_user=root
-
-[reachable]
-ubuntu201 ansible_host=192.168.253.138 ansible_port=22 ansible_user=root
-
 [worker]
-ubuntu202 ansible_host=192.168.253.139 ansible_port=22 ansible_user=root
-worker2 ansible_host=192.168.253.137 ansible_port=22 ansible_user=root
+worker2 ansible_host=192.168.253.135 ansible_port=22 ansible_user=root
+
+[master]
+master1 ansible_host=192.168.253.141 ansible_port=22 ansible_user=root
