@@ -42,6 +42,9 @@
       EOF
     tags: cat2
 
+  - name: config kubernetes
+    shell: sudo sysctl --system
+
   - name: Add an apt signing key for Docker
     apt_key:
       url: https://download.docker.com/linux/ubuntu/gpg
@@ -59,8 +62,6 @@
       update_cache: yes
     vars:
       packages:
-      - docker-ce 
-      - docker-ce-cli 
       - containerd.io
     notify:
       - docker status
@@ -114,6 +115,9 @@
 
   - name: pin their version
     shell: sudo apt-mark hold kubelet kubeadm kubectl
+
+  - name: pin their version
+    shell: sudo systemctl enable kubelet
     
   handlers:
     - name: docker status

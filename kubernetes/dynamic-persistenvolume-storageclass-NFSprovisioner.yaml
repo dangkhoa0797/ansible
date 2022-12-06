@@ -1,0 +1,121 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: volumes-nfs
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: volumes-nfs
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "update", "patch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: volumes-nfs
+subjects:
+  - kind: ServiceAccount
+    name: volumes-nfs
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: volumes-nfs
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: volumes-nfs
+rules:
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: volumes-nfs
+subjects:
+  - kind: ServiceAccount
+    name: volumes-nfs
+    namespace: default
+roleRef:
+  kind: Role
+  name: volumes-nfs
+  apiGroup: rbac.authorization.k8s.io
+
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+#      storageclass.kubernetes.io/is-default-class: "true"
+  name: volumes-nfs
+provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
+parameters:
+  archiveOnDelete: "false"
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: volumes-nfs
+spec:
+  storageClassName: volumes-nfs
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: 50Gi
+
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: volumes-nfs
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: volumes-nfs
+  template:
+    metadata:
+      labels:
+        app: volumes-nfs
+    spec:
+      serviceAccountName: volumes-nfs
+      containers:
+        - name: volumes-nfs
+          image: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+          volumeMounts:
+            - name: volumes-nfs
+              mountPath: /volumes-nfs
+          env:
+            - name: PROVISIONER_NAME
+              value: k8s-sigs.io/nfs-subdir-external-provisioner
+            - name: NFS_SERVER
+              value: 10.0.68.95
+            - name: NFS_PATH
+              value: /volumes-nfs
+      volumes:
+       - name: volumes-nfs
+         nfs:
+           server: 10.0.68.95
+           path: /volumes-nfs
