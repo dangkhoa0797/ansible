@@ -15,6 +15,7 @@
       - gnupg-agent
       - software-properties-common
       - gnupg2
+      - nfs-common
 
   - name: disable ufw
     shell: systemctl disable --now ufw
