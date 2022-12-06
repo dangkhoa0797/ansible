@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thumbor-deployment
+spec:
+  selector:
+    matchLabels:
+      app: thumbor
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: thumbor
+    spec:
+      containers:
+        - name: thumbor
+          image: apsl/thumbor
+          env:
+            - name: DETECTORS
+              value: "['thumbor.detectors.face_detector']"
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: thumbor-service
+  labels:
+    app: thumbor
+spec:
+  type: NodePort
+  ports:
+    - port: 8000
+      nodePort: 30010
+  selector:
+    app: thumbor

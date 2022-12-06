@@ -1,0 +1,35 @@
+---
+- hosts: leader
+  become: true
+  ignore_unreachable: yes
+  ignore_errors: yes
+  tasks:
+  - name: Initialize the Kubernetes cluster using kubeadm
+    command: kubeadm init
+    tags: init
+
+  - name: Setup kubeconfig for  user
+    command: "{{ item }}"
+    with_items:
+      - mkdir -p $HOME/.kube
+      - sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    tags: s1
+
+  - name: Setup kubeconfig for  user 2
+    shell: sudo chown $(id -u):$(id -g) $HOME/.kube/config
+    tags: s2
+
+  - name: Generate join command
+    command: kubeadm token create --print-join-command
+    register: join_command
+    tags: s3
+
+  - name: Copy join command to local file
+    local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
+    tags: s3
+
+  - name: Install calico pod network
+    shell: |
+      curl https://projectcalico.docs.tigera.io/manifests/calico.yaml -O
+      kubectl apply -f calico.yaml
+    tags: s4
