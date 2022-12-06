@@ -1,5 +1,5 @@
 ---
-- hosts: leader
+- hosts: master
   become: true
   ignore_unreachable: yes
   ignore_errors: yes

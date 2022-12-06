@@ -111,6 +111,10 @@
         - kubelet 
         - kubeadm 
         - kubectl
+
+  - name: pin their version
+    shell: sudo apt-mark hold kubelet kubeadm kubectl
+    
   handlers:
     - name: docker status
       service: name=docker state=started        
