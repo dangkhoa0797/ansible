@@ -7,6 +7,10 @@
       sudo apt update
       DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
       DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
+      timedatectl set-timezone Asia/Ho_Chi_Minh
+      hwclock --hctosys
+      hwclock --systohc
+      timedatectl set-ntp on
 
   - name: Install packages that allow apt to be used over HTTPS
     apt:
@@ -22,6 +26,8 @@
       - software-properties-common
       - gnupg2
       - nfs-common
+      - httpie
+      - net-tools
 
   - name: disable ufw
     shell: systemctl disable --now ufw
