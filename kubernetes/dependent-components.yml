@@ -2,6 +2,12 @@
 - hosts: all
   become: true
   tasks:
+  - name: disable ufw
+    shell: |
+      sudo apt update
+      DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' upgrade
+      DEBIAN_FRONTEND='noninteractive' apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
+
   - name: Install packages that allow apt to be used over HTTPS
     apt:
       name: "{{ packages }}"
