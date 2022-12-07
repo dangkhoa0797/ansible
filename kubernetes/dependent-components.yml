@@ -75,8 +75,6 @@
     vars:
       packages:
       - containerd.io
-    notify:
-      - docker status
   - name: config containerd 2
     shell: |
       mkdir -p /etc/containerd
@@ -129,8 +127,4 @@
     shell: sudo apt-mark hold kubelet kubeadm kubectl
 
   - name: pin their version
-    shell: sudo systemctl enable kubelet
-    
-  handlers:
-    - name: docker status
-      service: name=docker state=started        
+    shell: sudo systemctl enable kubelet       
