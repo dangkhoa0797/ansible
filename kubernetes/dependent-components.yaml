@@ -39,7 +39,7 @@
       br_netfilter
       EOF
     tags: cat1
-  - name: config containerd
+  - name: app config containerd
     shell: |
       modprobe overlay
       modprobe br_netfilter
@@ -54,7 +54,7 @@
       EOF
     tags: cat2
 
-  - name: config kubernetes
+  - name: app config kubernetes
     shell: sudo sysctl --system
 
   - name: Add an apt signing key for Docker

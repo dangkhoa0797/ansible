@@ -76,7 +76,7 @@ def main():
             install_swarm_back = False
         elif main_sel == 4:
             print("Deploy Kubernetes")
-            subprocess.run("ansible-playbook kubernetes/dependent-components.yml; ansible-playbook kubernetes/master.yml; ansible-playbook kubernetes/worker.yml", shell=True)
+            subprocess.run("ansible-playbook kubernetes/dependent-components.yaml; ansible-playbook kubernetes/master.yaml; ansible-playbook kubernetes/worker.yaml", shell=True)
             time.sleep(3)
         elif main_sel == 5 or main_sel == None:
             main_menu_exit = True
