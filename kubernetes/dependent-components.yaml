@@ -106,6 +106,24 @@
   - name: Install Kubernetes binaries
     shell: sudo apt install -y kubelet=1.24.1-00 kubeadm=1.24.1-00 kubectl=1.24.1-00
 
+  - name: Install the version of package "kubelet" and allow potential downgrades
+    ansible.builtin.apt:
+      name: kubelet=1.24.1
+      state: present
+      allow_downgrade: yes
+
+  - name: Install the version of package "kubeadm" and allow potential downgrades
+    ansible.builtin.apt:
+      name: kubeadm=1.24.1
+      state: present
+      allow_downgrade: yes
+
+  - name: Install the version of package "kubectl" and allow potential downgrades
+    ansible.builtin.apt:
+      name: kubectl=1.24.1
+      state: present
+      allow_downgrade: yes
+
   - name: pin their version
     shell: sudo apt-mark hold kubelet kubeadm kubectl
 
