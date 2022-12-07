@@ -58,9 +58,9 @@
     shell: sudo sysctl --system
 
   - name: Add an apt signing key for Docker
-    shell: 
+    shell: |
       rm -f /etc/apt/trusted.gpg.d/docker.gpg
-      sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg -y
+      sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
 
   - name: Adding apt repository for Docker
     shell: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
