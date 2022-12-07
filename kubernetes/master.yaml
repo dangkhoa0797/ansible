@@ -38,6 +38,7 @@
     tags: s4
 
   - name: alias
-    shell: printf "
+    shell: |
+      printf "
       alias k='kubectl'" >> .bashrc
     tags: alias
