@@ -36,3 +36,8 @@
       curl https://projectcalico.docs.tigera.io/manifests/calico.yaml -O
       kubectl apply -f calico.yaml
     tags: s4
+
+  - name: Install calico pod network
+    shell: printf "
+      alias k='kubectl'" >> .bashrc
+    tags: alias
