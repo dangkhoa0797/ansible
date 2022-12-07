@@ -52,6 +52,7 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 apt update
 sudo apt install -y kubelet=1.24.1-00 kubeadm=1.24.1-00 kubectl=1.24.1-00
 
+kubeadm config images pull
 kubeadm init --control-plane-endpoint=k8smaster.ubuntu.net
 #kubeadm init --config kubeadm-config.yaml
 mkdir -p $HOME/.kube
