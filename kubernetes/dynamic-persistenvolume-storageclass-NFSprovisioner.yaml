@@ -68,21 +68,6 @@ provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
 parameters:
   archiveOnDelete: "false"
 
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: first-volumes-nfs
-spec:
-  storageClassName: volumes-nfs
-  accessModes:
-    - "ReadWriteOnce"
-  resources:
-    requests:
-      storage: 50Gi
-
-
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -106,16 +91,29 @@ spec:
           image: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
           volumeMounts:
             - name: volumes-nfs
-              mountPath: /volumes-nfs
+              mountPath: /nfs_volumes
           env:
             - name: PROVISIONER_NAME
               value: k8s-sigs.io/nfs-subdir-external-provisioner
             - name: NFS_SERVER
               value: 10.0.68.96
             - name: NFS_PATH
-              value: /volumes-nfs
+              value: /nfs_volumes
       volumes:
        - name: volumes-nfs
          nfs:
            server: 10.0.68.96
-           path: /volumes-nfs
+           path: /nfs_volumes
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: first-volumes-nfs
+spec:
+  storageClassName: volumes-nfs
+  accessModes:
+    - "ReadWriteMany"
+  resources:
+    requests:
+      storage: 50Gi

@@ -1,6 +1,10 @@
 #!/bin/bash
-mkdir /nfs-volumes
+#nfs server
+mkdir -p /nfs_volumes
 chmod -R 777 /nfs-volumes/
-echo "/nfs-volumes *(rw,sync,fsid=0,no_subtree_check,no_root_squash,insecure)">>/etc/exports
+echo "/nfs-volumes *(rw,sync,no_subtree_check,no_root_squash,insecure)">>/etc/exports
 sudo exportfs -rv
 showmount -e
+systemctl restart nfs-kernel-server rpcbind
+#nfs client (worker)
+mount -t nfs 10.0.68.96:/nfs_volumes /mnt
