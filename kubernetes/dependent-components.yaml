@@ -58,16 +58,12 @@
     shell: sudo sysctl --system
 
   - name: Add an apt signing key for Docker
-    apt_key:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      state: present
+    shell: |
+      sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
 
-  - name: Add apt repository for stable version
-    apt_repository:
-      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
-      state: present
 
-  - name: Install docker and its dependecies
+  - name: Install containerd and its dependecies
     apt: 
       name: "{{ packages }}"
       state: present
@@ -101,27 +97,14 @@
     command: swapoff -a
     when: ansible_swaptotal_mb > 0
 
-  - name: Add an apt signing key for Kubernetes
-    apt_key:
-      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-      state: present
+  - name: Add an apt signing key for Kubernetes & Adding apt repository for Kubernetes
+    shell: |
+      sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-  - name: Adding apt repository for Kubernetes
-    apt_repository:
-      repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
-      state: present
-      filename: kubernetes.list
 
   - name: Install Kubernetes binaries
-    apt: 
-      name: "{{ packages }}"
-      state: present
-      update_cache: yes
-    vars:
-      packages:
-        - kubelet 
-        - kubeadm 
-        - kubectl
+    shell: sudo apt install -y kubelet=1.24.1-00 kubeadm=1.24.1-00 kubectl=1.24.1-00
 
   - name: pin their version
     shell: sudo apt-mark hold kubelet kubeadm kubectl

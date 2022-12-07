@@ -62,7 +62,7 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   annotations:
-#      storageclass.kubernetes.io/is-default-class: "true"
+    storageclass.kubernetes.io/is-default-class: "true"
   name: volumes-nfs
 provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
 parameters:
@@ -73,7 +73,7 @@ parameters:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: volumes-nfs
+  name: first-volumes-nfs
 spec:
   storageClassName: volumes-nfs
   accessModes:
@@ -111,11 +111,11 @@ spec:
             - name: PROVISIONER_NAME
               value: k8s-sigs.io/nfs-subdir-external-provisioner
             - name: NFS_SERVER
-              value: 10.0.68.95
+              value: 10.0.68.96
             - name: NFS_PATH
               value: /volumes-nfs
       volumes:
        - name: volumes-nfs
          nfs:
-           server: 10.0.68.95
+           server: 10.0.68.96
            path: /volumes-nfs
