@@ -37,7 +37,7 @@
       kubectl apply -f calico.yaml
     tags: s4
 
-  - name: Install calico pod network
+  - name: alias
     shell: printf "
       alias k='kubectl'" >> .bashrc
     tags: alias
