@@ -5,11 +5,11 @@
   ignore_errors: yes
   tasks:
   - name: Initialize the Kubernetes cluster using kubeadm
-    command: kubeadm init
+    shell: kubeadm init
     tags: init
 
   - name: Setup kubeconfig for  user
-    command: "{{ item }}"
+    shell: "{{ item }}"
     with_items:
       - mkdir -p $HOME/.kube
       - sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -20,7 +20,7 @@
     tags: s2
 
   - name: Generate join command
-    command: kubeadm token create --print-join-command
+    shell: kubeadm token create --print-join-command
     register: join_command
     tags: s3
 

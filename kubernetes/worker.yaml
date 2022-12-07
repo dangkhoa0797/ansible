@@ -8,4 +8,4 @@
     copy: src=join-command dest=/tmp/join-command.sh mode=0777
 
   - name: Join the node to cluster
-    command: sh /tmp/join-command.sh
+    shell: sh /tmp/join-command.sh
