@@ -21,7 +21,7 @@ def main():
         cycle_cursor=True,
         clear_screen=False,
     )
-
+# submenu 1
     install_swarm_title = "  Install cluster.\n  Press Q or Esc to back to main menu. \n"
     install_swarm_items = ["[1] Install multi-manage multi-worker cluster *", "[2] Install manager reachable", "[3] Install worker","[4] Install swarm cluster only one node (Test)", "Back to Main Menu"]
     install_swarm_back = False
@@ -34,7 +34,20 @@ def main():
         cycle_cursor=True,
         clear_screen=False,
     )
-
+# submenu 2
+    deploy_kubernetes_title = "  Install cluster.\n  Press Q or Esc to back to main menu. \n"
+    deploy_kubernetes_items = ["[1] Deploy kubernester cluster *", "[2] Setup nfs-volumes", "[3] Deploy metalLB, Ingress", "[4] Portainer", "[5] Infratructure service", "[6] Base service", "Back to Main Menu"]
+    deploy_kubernetes_back = False
+    deploy_kubernetes = TerminalMenu(
+        deploy_kubernetes_items,
+        title=deploy_kubernetes_title,
+        menu_cursor=main_menu_cursor,
+        menu_cursor_style=main_menu_cursor_style,
+        menu_highlight_style=main_menu_style,
+        cycle_cursor=True,
+        clear_screen=False,
+    )
+    
     while not main_menu_exit:
         main_sel = main_menu.show()
 
@@ -75,9 +88,35 @@ def main():
                     print("Back Selected")
             install_swarm_back = False
         elif main_sel == 4:
-            print("Deploy Kubernetes")
-            subprocess.run("ansible-playbook kubernetes/dependent-components.yaml; ansible-playbook kubernetes/master.yaml; ansible-playbook kubernetes/worker.yaml", shell=True)
-            time.sleep(3)
+            while not deploy_kubernetes_back:
+                edit_sel = deploy_kubernetes.show()
+                if edit_sel == 0:
+                    print("Deploy kubernester cluster *")
+                    subprocess.run("ansible-playbook kubernetes/dependent-components.yaml; ansible-playbook kubernetes/master.yaml; ansible-playbook kubernetes/worker.yaml", shell=True)
+                    time.sleep(3)
+                elif edit_sel == 1:
+                    print("Setup nfs-volumes")
+                    subprocess.run("ansible-playbook kubernetes/nfs-volumes/setupnfs.yml;", shell=True)
+                elif edit_sel == 2:
+                    print("Deploy metalLB, Ingress")
+                    subprocess.run("ansible-playbook kubernetes/metallb/setupmetallb.yml", shell=True)
+                elif edit_sel == 3:
+                    print("Deploy Portainer")
+                    subprocess.run("ansible-playbook kubernetes/setupportainer.yml", shell=True)
+                    time.sleep(3)
+                elif edit_sel == 4:
+                    print("Infratructure service")
+                    subprocess.run("ansible-playbook kubernetes/infra/setupinfra.yml", shell=True)
+                    time.sleep(3)
+                elif edit_sel == 5:
+                    print("Base service")
+                    subprocess.run("ansible-playbook kubernetes/basesvc/setupbasesvc.yml", shell=True)
+                    time.sleep(3)
+                elif edit_sel == 6 or edit_sel == None:
+                    deploy_kubernetes_back = True
+                    print("Back Selected")
+            deploy_kubernetes_back = False
+
         elif main_sel == 5 or main_sel == None:
             main_menu_exit = True
             print("Quit Selected")
