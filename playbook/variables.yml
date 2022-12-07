@@ -20,3 +20,7 @@ userdockerhub: admin
 passworddockerhub: Trinam@2019
 
 redisPassWord: 1!ghu$h4sC4D6ORt
+
+
+# Kubernetes
+IP_NFS_SERVER: 10.0.68.96

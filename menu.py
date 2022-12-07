@@ -96,21 +96,21 @@ def main():
                     time.sleep(3)
                 elif edit_sel == 1:
                     print("Setup nfs-volumes")
-                    subprocess.run("ansible-playbook kubernetes/nfs-volumes/setupnfs.yml;", shell=True)
+                    subprocess.run("ansible-playbook playbook/replace.yaml; ansible-playbook kubernetes/nfs-volumes/setupnfs.yaml", shell=True)
                 elif edit_sel == 2:
                     print("Deploy metalLB, Ingress")
-                    subprocess.run("ansible-playbook kubernetes/metallb/setupmetallb.yml", shell=True)
+                    subprocess.run("ansible-playbook kubernetes/metallb/setupmetallb.yaml", shell=True)
                 elif edit_sel == 3:
                     print("Deploy Portainer")
-                    subprocess.run("ansible-playbook kubernetes/setupportainer.yml", shell=True)
+                    subprocess.run("ansible-playbook kubernetes/setupportainer.yaml", shell=True)
                     time.sleep(3)
                 elif edit_sel == 4:
                     print("Infratructure service")
-                    subprocess.run("ansible-playbook kubernetes/infra/setupinfra.yml", shell=True)
+                    subprocess.run("ansible-playbook kubernetes/infra/setupinfra.yaml", shell=True)
                     time.sleep(3)
                 elif edit_sel == 5:
                     print("Base service")
-                    subprocess.run("ansible-playbook kubernetes/basesvc/setupbasesvc.yml", shell=True)
+                    subprocess.run("ansible-playbook kubernetes/basesvc/setupbasesvc.yaml", shell=True)
                     time.sleep(3)
                 elif edit_sel == 6 or edit_sel == None:
                     deploy_kubernetes_back = True

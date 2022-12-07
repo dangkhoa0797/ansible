@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: master worker
   become: true
   tasks:
   - name: update datetime
