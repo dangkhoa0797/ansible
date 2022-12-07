@@ -5,7 +5,7 @@
   ignore_errors: yes
   tasks:
 
-  - name: Initialize the Kubernetes cluster using kubeadm
+  - name: pull images
     shell: kubeadm config images pull
   - name: Initialize the Kubernetes cluster using kubeadm
     shell: kubeadm init
