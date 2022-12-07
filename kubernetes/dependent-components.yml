@@ -126,5 +126,5 @@
   - name: pin their version
     shell: sudo apt-mark hold kubelet kubeadm kubectl
 
-  - name: pin their version
+  - name: enable kubelet
     shell: sudo systemctl enable kubelet       
