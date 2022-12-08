@@ -1,0 +1,8 @@
+---
+- hosts: master
+  ignore_unreachable: yes
+  ignore_errors: yes
+  remote_user: root
+  tasks:
+    - name: deploy portainer
+      shell: kubectl apply -n portainer -f https://downloads.portainer.io/ce2-16/portainer.yaml

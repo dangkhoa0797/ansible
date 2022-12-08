@@ -1,0 +1,8 @@
+---
+- hosts: master
+  ignore_unreachable: yes
+  ignore_errors: yes
+  remote_user: root
+  tasks:
+  - name: deploy infra
+    shell: kubectl apply -f ./ansible/kubernetes/infra/basesvc.yaml

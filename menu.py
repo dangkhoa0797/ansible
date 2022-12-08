@@ -96,13 +96,13 @@ def main():
                     time.sleep(3)
                 elif edit_sel == 1:
                     print("Setup nfs-volumes")
-                    subprocess.run("ansible-playbook playbook/replace.yaml; ansible-playbook kubernetes/nfs-volumes/setupnfs.yaml", shell=True)
+                    subprocess.run("ansible-playbook kubernetes/replace.yaml --tags nfs; ansible-playbook kubernetes/nfs-volumes/setupnfs.yaml", shell=True)
                 elif edit_sel == 2:
                     print("Deploy metalLB, Ingress")
-                    subprocess.run("ansible-playbook kubernetes/metallb/setupmetallb.yaml", shell=True)
+                    subprocess.run("ansible-playbook kubernetes/replace.yaml --tags metallb; ansible-playbook kubernetes/metallb/setupmetallb.yaml", shell=True)
                 elif edit_sel == 3:
                     print("Deploy Portainer")
-                    subprocess.run("ansible-playbook kubernetes/setupportainer.yaml", shell=True)
+                    subprocess.run("ansible-playbook kubernetes/infra/setupportainer.yaml", shell=True)
                     time.sleep(3)
                 elif edit_sel == 4:
                     print("Infratructure service")

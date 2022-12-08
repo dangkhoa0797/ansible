@@ -1,0 +1,27 @@
+---
+- hosts: master
+  ignore_unreachable: yes
+  ignore_errors: yes
+  remote_user: root
+  vars_files:
+    - variables.yaml
+  tasks:
+    - name: This module will replace all instances of a pattern within a file
+      ansible.builtin.replace:
+        path: ./ansible/kubernetes/metallb/metallb-config.yaml
+        regexp: 'MetalLB_IPAddressPool'
+        replace: '{{MetalLB_IPAddressPool}}'
+      tags: metallb
+
+    - name: This module will replace all instances of a pattern within a file
+      ansible.builtin.replace:
+        path: ./ansible/kubernetes/nfs-volumes/3nfs.yaml
+        regexp: 'IP_NFS_SERVER'
+        replace: '{{IP_NFS_SERVER}}'
+      tags: nfs
+    - name: This module will replace all instances of a pattern within a file
+      ansible.builtin.replace:
+        path: ./ansible/kubernetes/nfs-volumes/setupnfs.yaml
+        regexp: 'IP_NFS_SERVER'
+        replace: '{{IP_NFS_SERVER}}'
+      tags: nfs

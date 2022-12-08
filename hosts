@@ -7,3 +7,11 @@ master1 ansible_host=192.168.253.141 ansible_port=22 ansible_user=root
 [nfs]
 
 nfs ansible_host=10.0.68.96 ansible_port=22 ansible_user=root
+
+
+
+[leader]
+
+
+[reachable]
+

@@ -3,8 +3,6 @@
   become: true
   ignore_unreachable: yes
   ignore_errors: yes
-  vars_files:
-    - variables.yml
   tasks:
     - name: set up date time
       shell: |
@@ -33,7 +31,7 @@
     - name: mount
       shell: |
         sudo apt install nfs-common
-        mount -t nfs 10.0.68.96:/nfs_volumes /mnt
+        mount -t nfs IP_NFS_SERVER:/nfs_volumes /mnt
 
 ---
 - hosts: master

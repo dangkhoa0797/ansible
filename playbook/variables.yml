@@ -1,3 +1,4 @@
+# Docker Swarm
 # ten may hoac group se trien khai
 HostNameManager: leader
 HostNameOrGroupReachable: reachable
