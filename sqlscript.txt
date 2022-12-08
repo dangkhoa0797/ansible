@@ -1,0 +1,13 @@
+USE [U2212_Dev_Core_V5]
+GO
+INSERT INTO [Identityserver].[ClientCorsOrigins] (Origin, ClientId)
+VALUES ('https://vietinbank-test.dttt.vn', '4094');
+
+INSERT INTO [Identityserver].[ClientCorsOrigins] (Origin, ClientId)
+VALUES ('https://vietinbank-test.dttt.vn', '5098');
+
+INSERT INTO [Identityserver].[ClientRedirectUris] (RedirectUri, ClientId)
+VALUES ('https://vietinbank-test.dttt.vn', '4094');
+
+INSERT INTO [Identityserver].[ClientRedirectUris] (RedirectUri, ClientId)
+VALUES ('https://vietinbank-test.dttt.vn', '5098');

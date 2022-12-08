@@ -4,6 +4,7 @@ import os
 import subprocess
 from simple_term_menu import TerminalMenu
 
+# main menu
 def main():
     main_menu_title = "  Main Menu.\n  Press Q or Esc to quit. \n"
     main_menu_items = ["[1] Install ansible", "[2] Edit hosts file", "[3] Edit variables file", "[4] Install swarm cluster (Production)", "[5] Deploy Kubernetes", "Quit"]
@@ -47,7 +48,7 @@ def main():
         cycle_cursor=True,
         clear_screen=False,
     )
-    
+# main menu seletor    
     while not main_menu_exit:
         main_sel = main_menu.show()
 
@@ -67,6 +68,7 @@ def main():
             print("Cập nhật file variables.yml")
             subprocess.run("nano playbook/variables.yml", shell=True)
             time.sleep(3)
+# submenu 1 seletor    
         elif main_sel == 3:
             while not install_swarm_back:
                 edit_sel = install_swarm.show()
@@ -87,6 +89,7 @@ def main():
                     install_swarm_back = True
                     print("Back Selected")
             install_swarm_back = False
+# submenu 2 seletor 
         elif main_sel == 4:
             while not deploy_kubernetes_back:
                 edit_sel = deploy_kubernetes.show()
