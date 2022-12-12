@@ -41,7 +41,11 @@
     shell: |
       printf "
       alias k='kubectl'" >> .bashrc
-      source ~/.bashrc
+    tags: alias
+  - name: aliass
+    shell: source ~/.bashrc
+    args: 
+      executable: /bin/bash
     tags: alias
 
   - name: Install helm
