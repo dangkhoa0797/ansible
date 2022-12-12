@@ -109,18 +109,23 @@
       name: kubelet=1.25.1-00
       state: present
       allow_downgrade: yes
+      update_cache: yes
+    tags: kube
 
   - name: Install the version of package "kubeadm" and allow potential downgrades
     ansible.builtin.apt:
       name: kubeadm=1.25.1-00
       state: present
+      update_cache: yes
       allow_downgrade: yes
-
+    tags: kube
   - name: Install the version of package "kubectl" and allow potential downgrades
     ansible.builtin.apt:
       name: kubectl=1.25.1-00
       state: present
+      update_cache: yes
       allow_downgrade: yes
+    tags: kube
 
   - name: pin their version
     shell: sudo apt-mark hold kubelet kubeadm kubectl
