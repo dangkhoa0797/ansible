@@ -37,17 +37,6 @@
       kubectl apply -f calico.yaml
     tags: s4
 
-  - name: alias
-    shell: |
-      printf "
-      alias k='kubectl'" >> .bashrc
-    tags: alias
-  - name: aliass
-    shell: source ~/.bashrc
-    args: 
-      executable: /bin/bash
-    tags: alias
-
   - name: Install helm
     shell: |
       curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
