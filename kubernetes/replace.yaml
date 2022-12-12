@@ -4,7 +4,7 @@
   ignore_errors: yes
   remote_user: root
   vars_files:
-    - variables.yaml
+    - ~/ansible/playbook/variables.yml
   tasks:
     - name: This module will replace all instances of a pattern within a file
       ansible.builtin.replace:

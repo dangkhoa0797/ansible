@@ -24,4 +24,5 @@ redisPassWord: 1!ghu$h4sC4D6ORt
 
 
 # Kubernetes
-IP_NFS_SERVER: 10.0.68.96
+IP_NFS_SERVER: 192.168.253.135
+MetalLB_IPAddressPool: 192.168.253.170-192.168.253.200
