@@ -9,3 +9,15 @@
 
   - name: Join the node to cluster
     shell: sh /tmp/join-command.sh
+
+#    - name: used ufw
+#      shell: |
+#        sudo ufw default deny incoming
+#        sudo ufw default allow outgoing
+#        sudo ufw allow OpenSSH
+#        sudo ufw allow 80
+#        sudo ufw allow 443
+#        sudo ufw allow 10250/tcp
+#        sudo ufw allow 30000:32767/tcp
+#        sudo ufw --force enable
+ 	

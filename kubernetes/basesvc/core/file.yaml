@@ -1,0 +1,59 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fileapi-pvc-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fileapi-deployment
+spec:
+  selector:
+    matchLabels:
+      app: fileapi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fileapi
+    spec:
+      containers:
+        - name: fileapi
+          image: dockerhub.dttt.vn/core/file.api:5.1
+          env:
+          - name: SCOPE__ENVIRONMENT
+            value: "Test"
+          - name: SCOPE__NAME
+            value: "U2210"
+          - name: ETCD__CONFIG
+            value: "authenticated=true;server=http://10.0.68.171:2379;username=root;password=123456a@"
+          volumeMounts:
+          - mountPath: /app/wwwroot/uploads
+            name: fileapi-data
+      volumes:
+      - name: fileapi-data
+        persistentVolumeClaim:
+          claimName: fileapi-pvc-claim
+      imagePullSecrets:
+      - name: dockerhubdtttvn
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: file-service
+  labels:
+    app: fileapi
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: fileapi

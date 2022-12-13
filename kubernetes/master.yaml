@@ -46,3 +46,19 @@
   - name: Create secret docker-registry dockerhubdtttvn
     command: kubectl create secret docker-registry dockerhubdtttvn --docker-server=dockerhub.dttt.vn --docker-username=admin --docker-password=Trinam@2019 --docker-email=admin@trinam.com.vn
     tags: dockerhubdtttvn
+
+
+#    - name: used ufw
+#      shell: |
+#        sudo ufw default deny incoming
+#        sudo ufw default allow outgoing
+#        sudo ufw allow OpenSSH
+#        sudo ufw allow 80
+#        sudo ufw allow 443
+#        sudo ufw allow 6443/tcp
+#        sudo ufw allow 2379/tcp
+#        sudo ufw allow 2380/tcp
+#        sudo ufw allow 10250/udp
+#        sudo ufw allow 10259/udp
+#        sudo ufw allow 10257/tcp
+#        sudo ufw --force enable

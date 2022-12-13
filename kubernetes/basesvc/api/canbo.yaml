@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canboapi-deployment
+spec:
+  selector:
+    matchLabels:
+      app: canboapi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: canboapi
+    spec:
+      containers:
+        - name: canboapi
+          image: dockerhub.dttt.vn/u202001/canbo.api:5.1
+          env:
+          - name: SCOPE__ENVIRONMENT
+            value: "Test"
+          - name: SCOPE__NAME
+            value: "U2210"
+          - name: ETCD__CONFIG
+            value: "authenticated=true;server=http://10.0.68.171:2379;username=root;password=123456a@"
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+      - name: dockerhubdtttvn
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: canboapi-service
+  labels:
+    app: canboapi
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: canboapi

@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authorizationapi-deployment
+spec:
+  selector:
+    matchLabels:
+      app: authorizationapi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: authorizationapi
+    spec:
+      containers:
+        - name: authorizationapi
+          image: dockerhub.dttt.vn/core/authorization.api:5.1
+          env:
+          - name: SCOPE__ENVIRONMENT
+            value: "Test"
+          - name: SCOPE__NAME
+            value: "U2210"
+          - name: ETCD__CONFIG
+            value: "authenticated=true;server=http://10.0.68.171:2379;username=root;password=123456a@"
+      imagePullSecrets:
+      - name: dockerhubdtttvn
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authorization-service
+  labels:
+    app: authorizationapi
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: authorizationapi

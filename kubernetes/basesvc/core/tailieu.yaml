@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tailieuapi-deployment
+spec:
+  selector:
+    matchLabels:
+      app: tailieuapi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tailieuapi
+    spec:
+      containers:
+        - name: tailieuapi
+          image: dockerhub.dttt.vn/core/tailieu.api:5.1
+          env:
+          - name: SCOPE__ENVIRONMENT
+            value: "Test"
+          - name: SCOPE__NAME
+            value: "U2210"
+          - name: ETCD__CONFIG
+            value: "authenticated=true;server=http://10.0.68.171:2379;username=root;password=123456a@"
+      imagePullSecrets:
+      - name: dockerhubdtttvn
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tailieu-service
+  labels:
+    app: tailieuapi
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: tailieuapi

@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canboclient-deployment
+spec:
+  selector:
+    matchLabels:
+      app: canboclient
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: canboclient
+    spec:
+      containers:
+        - name: canboclient
+          image: dockerhub.dttt.vn/u202001/canbo.client:5.1_vtb
+          env:
+          - name: BASE_HREF
+            value: "/canbov5"
+          - name: APP_CODE
+            value: "CANBO"
+          - name: CONFIG_SERVICE
+            value: ""
+          ports:
+            - containerPort: 80
+          volumeMounts:
+          - mountPath: /usr/share/nginx/html/assets/environments/
+            name: client-data
+      imagePullSecrets:
+      - name: dockerhubdtttvn
+      volumes:
+      - name: client-data
+        persistentVolumeClaim:
+          claimName: volumesclient-pvc-claim
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: canboclient-service
+  labels:
+    app: canboclient
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: canboclient
