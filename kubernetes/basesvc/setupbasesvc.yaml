@@ -3,6 +3,12 @@
   ignore_unreachable: yes
   ignore_errors: yes
   remote_user: root
+  vars_files:
+    - ~/ansible/playbook/variables.yml
   tasks:
-  - name: deploy infra
-    shell: kubectl apply -f ./ansible/kubernetes/infra/basesvc.yaml
+  - name: deploy core services
+    shell: kubectl apply -f ~/ansible/kubernetes/basesvc/core/{{ core_list }}.yaml
+  - name: deploy client services
+    shell: kubectl apply -f ~/ansible/kubernetes/basesvc/core/{{ client_list }}.yaml
+  - name: deploy api services
+    shell: kubectl apply -f ~/ansible/kubernetes/basesvc/core/{{ api_list }}.yaml 
