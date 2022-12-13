@@ -29,7 +29,7 @@
 #      shell: |
 #        sudo apt install nfs-common
 #        mount -t nfs 192.168.253.141:/nfs_volumes /mnt
-#      delegate_to: nfs_client
+#      delegate_to: master1
     - name: apply on master
       shell: kubectl apply -f ./ansible/kubernetes/nfs-volumes/1nfs.yaml -f ./ansible/kubernetes/nfs-volumes/2nfs.yaml -f ./ansible/kubernetes/nfs-volumes/3nfs.yaml -f ./ansible/kubernetes/nfs-volumes/4nfs.yaml
       delegate_to: master1

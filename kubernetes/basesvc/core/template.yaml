@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: slogapi-deployment
+  name: templateapi-deployment
 spec:
   selector:
     matchLabels:
-      app: slogapi
+      app: templateapi
   replicas: 1
   template:
     metadata:
       labels:
-        app: slogapi
+        app: templateapi
     spec:
       containers:
-        - name: slogapi
-          image: dockerhub.dttt.vn/core/slog.api:5.1
+        - name: templateapi
+          image: dockerhub.dttt.vn/core/template.api:5.1
           env:
           - name: SCOPE__ENVIRONMENT
             value: "Test"
@@ -30,11 +30,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: slog-service
+  name: template-service
   labels:
-    app: slogapi
+    app: templateapi
 spec:
   ports:
     - port: 80
   selector:
-    app: slogapi
+    app: templateapi
