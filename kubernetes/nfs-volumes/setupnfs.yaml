@@ -1,5 +1,5 @@
 ---
-- hosts: nfs
+- hosts: nfsserver
   become: true
   ignore_unreachable: yes
   ignore_errors: yes
@@ -18,7 +18,6 @@
         update_cache: yes
     - name: nfs server folder
       shell: |
-        sudo apt install nfs-kernel-server
         mkdir -p /nfs_volumes
         chmod -R 777 /nfs_volumes/
         echo "/nfs_volumes *(rw,sync,no_subtree_check,no_root_squash,insecure)">>/etc/exports
@@ -33,4 +32,4 @@
 #      delegate_to: nfs_client
     - name: apply on master
       shell: kubectl apply -f ./ansible/kubernetes/nfs-volumes/1nfs.yaml -f ./ansible/kubernetes/nfs-volumes/2nfs.yaml -f ./ansible/kubernetes/nfs-volumes/3nfs.yaml -f ./ansible/kubernetes/nfs-volumes/4nfs.yaml
-      delegate_to: nfsserver
+      delegate_to: master1
