@@ -33,4 +33,4 @@
 #      delegate_to: nfs_client
     - name: apply on master
       shell: kubectl apply -f ./ansible/kubernetes/nfs-volumes/1nfs.yaml -f ./ansible/kubernetes/nfs-volumes/2nfs.yaml -f ./ansible/kubernetes/nfs-volumes/3nfs.yaml -f ./ansible/kubernetes/nfs-volumes/4nfs.yaml
-      delegate_to: master1
+      delegate_to: nfsserver
