@@ -1,17 +1,4 @@
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: volumesclient-pvc-claim
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 5Gi
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,9 +31,9 @@ spec:
       imagePullSecrets:
       - name: dockerhubdtttvn
       volumes:
-      - name: client-data
-        persistentVolumeClaim:
-          claimName: volumesclient-pvc-claim
+        - name: client-data
+          hostPath: # hostPath volume
+            path: /volumes/client-data/
 ---
 apiVersion: v1
 kind: Service

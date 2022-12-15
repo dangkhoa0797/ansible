@@ -31,9 +31,9 @@ spec:
       imagePullSecrets:
       - name: dockerhubdtttvn
       volumes:
-      - name: client-data
-        persistentVolumeClaim:
-          claimName: volumesclient-pvc-claim
+        - name: client-data
+          hostPath: # hostPath volume
+            path: /volumes/client-data/
 
 ---
 apiVersion: v1
