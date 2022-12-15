@@ -1,0 +1,7 @@
+resources:
+  - 1ResourceDefinition.yaml
+  - 2RBAC.yaml
+  - 3Traefik.yaml
+  - 4Whoami.yaml
+  - 5IngressRoute.yaml
+  - 6tlsoption.yaml
