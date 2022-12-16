@@ -16,6 +16,7 @@ spec:
       containers:
         - name: templateapi
           image: dockerhub.dttt.vn/core/template.api:5.1
+          imagePullPolicy: Always
           env:
           - name: SCOPE__ENVIRONMENT
             value: "Test"

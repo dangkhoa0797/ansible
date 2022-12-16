@@ -16,6 +16,7 @@ spec:
       containers:
         - name: canboclient
           image: dockerhub.dttt.vn/u202001/canbo.client:5.1_vtb
+          imagePullPolicy: Always
           env:
           - name: BASE_HREF
             value: "/canbov5"

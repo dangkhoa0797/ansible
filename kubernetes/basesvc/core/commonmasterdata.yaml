@@ -16,6 +16,7 @@ spec:
       containers:
         - name: commonmasterdataapi
           image: dockerhub.dttt.vn/core/commonmasterdata.api:5.1
+          imagePullPolicy: Always
           env:
           - name: SCOPE__ENVIRONMENT
             value: "Test"

@@ -16,6 +16,7 @@ spec:
       containers:
         - name: userclient
           image: dockerhub.dttt.vn/u202001/user.client:5.1
+          imagePullPolicy: Always
           env:
           - name: BASE_HREF
             value: "/userv5"

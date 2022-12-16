@@ -16,6 +16,7 @@ spec:
       containers:
         - name: ruletrackingapi
           image: dockerhub.dttt.vn/core/ruletracking.api:5.0
+          imagePullPolicy: Always
           env:
           - name: SCOPE__ENVIRONMENT
             value: "Test"

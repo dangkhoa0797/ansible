@@ -16,6 +16,7 @@ spec:
       containers:
         - name: authorizationapi
           image: dockerhub.dttt.vn/core/authorization.api:5.1
+          imagePullPolicy: Always          
           env:
           - name: SCOPE__ENVIRONMENT
             value: "Test"

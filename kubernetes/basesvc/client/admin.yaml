@@ -16,6 +16,7 @@ spec:
       containers:
         - name: adminclient
           image: dockerhub.dttt.vn/u202001/admin.client:5.1
+          imagePullPolicy: Always
           env:
           - name: BASE_HREF
             value: "/adminv5"

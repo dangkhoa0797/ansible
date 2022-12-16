@@ -16,6 +16,7 @@ spec:
       containers:
         - name: fileapi
           image: dockerhub.dttt.vn/core/file.api:5.1
+          imagePullPolicy: Always
           env:
           - name: SCOPE__ENVIRONMENT
             value: "Test"

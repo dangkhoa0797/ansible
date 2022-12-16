@@ -16,6 +16,7 @@ spec:
       containers:
         - name: canboapi
           image: dockerhub.dttt.vn/u202001/canbo.api:5.1
+          imagePullPolicy: Always
           env:
           - name: SCOPE__ENVIRONMENT
             value: "Test"
