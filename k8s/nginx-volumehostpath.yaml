@@ -15,7 +15,6 @@ spec:
       containers:
       - name: clear-nginx
         image: clearlinux/nginx
-        command: ["/bin/sh", "-c", 'echo "<h1>I am <font color=green>KHOA</font></h1>" > /var/www/html/index.html']
         volumeMounts:
         - mountPath: /var/www/html
           name: html
