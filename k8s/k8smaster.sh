@@ -55,6 +55,9 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 kubeadm config images pull
 kubeadm init --control-plane-endpoint=k8smaster.ubuntu.net
+
+#kubeadm init --pod-network-cidr=10.244.0.0/16
+
 #kubeadm init --config kubeadm-config.yaml
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -67,6 +70,8 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 curl https://projectcalico.docs.tigera.io/manifests/calico.yaml -O
 kubectl apply -f calico.yaml
 kubectl get pods -n kube-system --watch
+
+#sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
 docker login dockerhub.dttt.vn -u="admin" -p="Trinam@2019"
 #pull image
