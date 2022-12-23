@@ -12,13 +12,6 @@ spec:
       labels:
         app: clear-nginx
     spec:
-      initContainers:
-      - name: webcontent
-        image: busybox
-        volumeMounts:
-        - name: web-content
-          mountPath: "/volumes/clear-nginx/"
-        command: ["/bin/sh", "-c", 'echo "<h1>I am <font color=green>GREEN</font></h1>" > /webdata/index.html']
       containers:
       - name: clear-nginx
         image: clearlinux/nginx
