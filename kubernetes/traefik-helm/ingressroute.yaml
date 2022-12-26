@@ -1,45 +1,26 @@
 apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: stripprefix
-
-spec:
-  stripPrefix:
-    prefixes:
-      - /blue
-      - /green
-
----
-apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute
+  name: traefik
+  namespace: default
 
 spec:
   entryPoints:
     - web
+
   routes:
-  - match: Host(`khoahd1.site`) && PathPrefix(`/`)
+  - match: Host(`khoahd1.site`)
     kind: Rule
     services:
     - name: nginx-service
-      port: 80
-    middlewares:
-    - name: stripprefix
-
+      port: 80  
   - match: Host(`khoahd1.site`) && PathPrefix(`/blue`)
     kind: Rule
     services:
     - name: blue-nginx-service
       port: 80
-    middlewares:
-    - name: stripprefix
-
   - match: Host(`khoahd1.site`) && PathPrefix(`/green`)
     kind: Rule
     services:
     - name: green-nginx-service
       port: 80
-    middlewares:
-    - name: stripprefix
-
