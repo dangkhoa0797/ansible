@@ -2,6 +2,15 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
+  name: test-stripprefixregex
+spec:
+  stripPrefixRegex:
+    regex:
+      - "$$|/.*"
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
   name: stripprefix
   namespace: default
 spec:
