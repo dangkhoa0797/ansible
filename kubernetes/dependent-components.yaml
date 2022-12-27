@@ -11,6 +11,24 @@
       hwclock --hctosys
       hwclock --systohc
       timedatectl set-ntp on
+# Config limit parameters
+  - name: Config limit parameters soft
+    shell: echo "*    soft    nofile 819200" >>/etc/security/limits.conf
+    
+  - name: Config limit parameters hard
+    shell: echo "*    hard    nofile 819200" >>/etc/security/limits.conf
+    
+  - name: Config limit parameters touch
+    shell: touch /etc/security/limits.conf
+    
+  - name: Config limit parameters file-max
+    shell: echo "fs.file-max = 200000" >>/etc/sysctl.conf
+   
+  - name: Config limit parameters inotify.max_user_watches
+    shell: echo "fs.inotify.max_user_watches = 2048576" >>/etc/sysctl.conf
+   
+  - name: Config limit parameters inotify.max_user_instances
+    shell: echo "fs.inotify.max_user_instances = 524288" >>/etc/sysctl.conf
 
   - name: Install packages that allow apt to be used over HTTPS
     apt:

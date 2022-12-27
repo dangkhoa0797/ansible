@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: u2212-tainguyenapi-deployment
+spec:
+  selector:
+    matchLabels:
+      app: tainguyenapi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tainguyenapi
+    spec:
+      containers:
+        - name: tainguyen
+          image: dockerhub.dttt.vn/dtc/tainguyen.api:5.1
+          imagePullPolicy: Always
+          env:
+          - name: SCOPE__ENVIRONMENT
+            value: "Test"
+          - name: SCOPE__NAME
+            value: "U2212"
+          - name: ETCD__CONFIG
+            value: "authenticated=true;server=http://etcd:2379;username=root;password=123456a@"
+          - name: SCOPE__SERVICE
+            value: "TAINGUYEN"
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+      - name: dockerhubdtttvn
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tainguyenapiservice
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: tainguyenapi

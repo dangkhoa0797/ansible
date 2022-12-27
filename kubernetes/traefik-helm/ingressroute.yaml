@@ -1,48 +1,40 @@
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: stripprefix
   namespace: default
-
 spec:
   stripPrefix:
     prefixes:
-      - /blue 
-      - /green 
-
+      - /blue
+      - /green
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: khoahd
+  name: k8s-example
+  namespace: default
 
 spec:
   entryPoints:
     - web
-  routes:
-  - match: Host(`nginx.example.site`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: nginx-service
-      port: 80
-    middlewares:
-    - name: stripprefix
-      namespace: default
 
-  - match: Host(`nginx.example.site`) && PathPrefix(`/blue`)
+  routes:
+  - match: Host(`nginx.example.site`) && PathPrefix(`/blue{regex:$|/.*}`)
     kind: Rule
     services:
     - name: blue-nginx-service
       port: 80
     middlewares:
-    - name: stripprefix
-      namespace: default
+      - name: stripprefix
+        namespace: default
 
-  - match: Host(`nginx.example.site`) && PathPrefix(`/green`)
+  - match: Host(`nginx.example.site`) && PathPrefix(`/green{regex:$|/.*}`)
     kind: Rule
     services:
     - name: green-nginx-service
       port: 80
     middlewares:
-    - name: stripprefix
-      namespace: default
+      - name: stripprefix
+        namespace: default

@@ -1,0 +1,41 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /gwtestv5/tainguyen
+
+#---
+#apiVersion: traefik.containo.us/v1alpha1
+#kind: IngressRoute
+#metadata:
+#  name: ingressroute
+#spec:
+## more fields...
+#  routes:
+#    # more fields...
+#    middlewares:
+#      - name: stripprefix
+#
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+  routes:
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/tainguyen{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: tainguyenapiservice
+      port: 80
+    middlewares:
+      - name: stripprefix
