@@ -10,4 +10,4 @@ systemctl restart nfs-kernel-server rpcbind
 #nfs client (worker)
 sudo apt install nfs-common
 mount -t nfs 10.0.68.96:/nfs_volumes /mnt
-#mount -t nfs IP_CLIENT:/FOLDER_CLIENT /FOLDER_SERVER
+#mount -t nfs IP_server:/FOLDER_server /FOLDER_client
