@@ -4,9 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: nginx-pvc-claim
 spec:
-  storageClassName: manual
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 5Gi
