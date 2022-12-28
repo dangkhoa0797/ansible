@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blue-nginxconfigmap
+  labels:
+    app: blue-nginx
+data:
+  index.html: |
+
+    <center><h1>I am <font color=blue>BLUE NGINX</font></h1></center>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: blue-nginx
+  template:
+    metadata:
+      labels:
+        app: blue-nginx
+    spec:
+      containers:
+      - name: blue-nginx
+        image: clearlinux/nginx
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: web-content
+        ports:
+        - containerPort: 80
+      volumes:
+        - name: web-content
+          configMap:
+            name: blue-nginxconfigmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blue-nginx-service
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30052
+  selector:
+    app: blue-nginx
+  type: NodePort

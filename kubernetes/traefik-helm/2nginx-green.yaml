@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: green-nginxconfigmap
+  labels:
+    app: green-nginx
+data:
+  index.html: |
+
+    <center><h1>I am <font color=green>GREEN NGINX</font></h1></center>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: green-nginx
+  template:
+    metadata:
+      labels:
+        app: green-nginx
+    spec:
+      containers:
+      - name: green-nginx
+        image: clearlinux/nginx
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: web-content
+        ports:
+        - containerPort: 80
+      volumes:
+        - name: web-content
+          configMap:
+            name: green-nginxconfigmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: green-nginx-service
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30051
+  selector:
+    app: green-nginx
+  type: NodePort
