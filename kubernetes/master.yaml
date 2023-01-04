@@ -32,9 +32,7 @@
     tags: s3
 
   - name: Install calico pod network
-    shell: |
-      curl https://projectcalico.docs.tigera.io/manifests/calico.yaml -O
-      kubectl apply -f calico.yaml
+    shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
     tags: s4
 
   - name: Install helm
