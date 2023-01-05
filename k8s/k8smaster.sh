@@ -35,7 +35,7 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 
 
 apt update
-apt install -y containerd apt-transport-https
+apt install -y containerd
 mkdir -p /etc/containerd
 containerd config default > /etc/containerd/config.toml
 sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
@@ -59,14 +59,8 @@ kubeadm init --control-plane-endpoint=k8smaster.ubuntu.net
 #kubeadm init --pod-network-cidr=10.244.0.0/16
 
 #kubeadm init --config kubeadm-config.yaml
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
-
-curl https://projectcalico.docs.tigera.io/manifests/calico.yaml -O
-kubectl apply -f calico.yaml
-kubectl get pods -n kube-system --watch
-
-#sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
 docker login dockerhub.dttt.vn -u="admin" -p="Trinam@2019"
 #pull image
