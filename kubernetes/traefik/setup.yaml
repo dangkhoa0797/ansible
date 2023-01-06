@@ -1,0 +1,24 @@
+---
+- hosts: master
+  ignore_unreachable: yes
+  ignore_errors: yes
+  remote_user: root
+  vars_files:
+    - ~/ansible/kubernetes/variables.yml
+  tasks:
+
+    - name: deploy traefik with helm
+      shell: |
+        helm repo add traefik https://helm.traefik.io/traefik
+        helm repo update
+        helm install traefik traefik/traefik --values ~/ansible/kubernetes/traefik/traefik-values.yaml -n traefik --create-namespace 
+
+    - name: deploy example nginx.example.site
+      shell: |
+        kubectl apply -f ~/ansible/kubernetes/traefik/1nginx-blue.yaml -f ~/ansible/kubernetes/traefik/2nginx-green.yaml -f ~/ansible/kubernetes/traefik/3nginx-main.yaml
+
+    - name: create dashboard traefik
+      shell: kubectl apply -f ~/ansible/kubernetes/traefik/dashboardtraefik.yaml
+
+    - name: create ingress route nginx.example.site
+      shell: kubectl apply -f ~/ansible/kubernetes/traefik/ingressroute.yaml

@@ -1,0 +1,145 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /gwtestv5/authorization
+      - /gwtestv5/commonmasterdata
+      - /gwtestv5/file
+      - /gwtestv5/notification
+      - /gwtestv5/ruletracking
+      - /gwtestv5/schedule
+      - /gwtestv5/slog
+      - /gwtestv5/tailieu
+      - /gwtestv5/template
+      - /gwtestv5/uniquenumber
+      - /gwtestv5/userorg
+      - /gwtestv5/workflow
+      - /gwtestv5/canbo
+      - /admin
+      - /canbo
+      - /user
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+  routes:
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/authorization{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: authorization-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/commonmasterdata{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: commonmasterdata-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/file{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: file-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/notification{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: notification-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/ruletracking{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: ruletracking-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/schedule{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: schedule-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/slog{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: slog-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/tailieu{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: tailieu-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/template{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: template-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/uniquenumber{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: uniquenumber-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/userorg{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: userorg-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/workflow{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: workflowapi-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/gwtestv5/canbo{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: canboapi-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+
+
+
+

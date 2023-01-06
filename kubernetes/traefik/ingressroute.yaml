@@ -1,0 +1,84 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefixregex
+spec:
+  stripPrefixRegex:
+    regex:
+      - "$$|/.*"
+      
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nginx-redirect-scheme
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+    port: "443"
+    
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+  namespace: default
+spec:
+  stripPrefix:
+    prefixes:
+      - /blue
+      - /green
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: k8s-example
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/blue{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: blue-nginx-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+        namespace: default
+      - name: nginx-redirect-scheme
+        namespace: default
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/green{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: green-nginx-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+        namespace: default
+      
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nginx-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/blue{regex:$|/.*}`)
+      kind: Rule     
+      services:
+        - name: blue-nginx-service
+          port: 80
+      middlewares:          
+      - name: stripprefix
+        namespace: default
+  tls:
+    certResolver: myresolver

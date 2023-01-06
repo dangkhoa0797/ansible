@@ -1,4 +1,15 @@
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fileapi
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,16 +32,18 @@ spec:
           - name: SCOPE__ENVIRONMENT
             value: "Test"
           - name: SCOPE__NAME
-            value: "U2210"
+            value: "U2212"
           - name: ETCD__CONFIG
-            value: "authenticated=true;server=http://10.0.68.171:2379;username=root;password=123456a@"
+            value: "authenticated=true;server=http://etcd:2379;username=root;password=123456a@"
           volumeMounts:
           - mountPath: /app/wwwroot/uploads
             name: fileapi-data
+          ports:
+            - containerPort: 80
       volumes:
-        - name: fileapi-data
-          hostPath: # hostPath volume
-            path: /volumes/fileapi-data/
+      - name: fileapi-data
+        persistentVolumeClaim:
+          claimName: fileapi
       imagePullSecrets:
       - name: dockerhubdtttvn
 

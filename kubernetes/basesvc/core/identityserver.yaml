@@ -21,11 +21,11 @@ spec:
           - name: SCOPE__ENVIRONMENT
             value: "Test"
           - name: SCOPE__NAME
-            value: "U2210"
+            value: "U2212"
           - name: ETCD__CONFIG
-            value: "authenticated=true;server=http://10.0.68.171:2379;username=root;password=123456a@"
+            value: "authenticated=true;server=http://etcd:2379;username=root;password=123456a@"
           - name: IDENTITYSERVER_LOGIN_LOGO
-            value: "https://hdkhoa.example.com/admin/assets/environments/logo.png"
+            value: "http://nginx.example.site/admin/assets/environments/logo.png"
           - name: IDENTITYSERVER_LOGIN_TITLE
             value: "VIETINBANK"
           - name: IDENTITYSERVER_LOGIN_ADDRESS
@@ -41,9 +41,9 @@ spec:
           - name: IDENTITYSERVER_LOGO_NAME_VN
             value: "VIETINBANK"
           - name: PUBLIC_ORIGIN
-            value: "https://hdkhoa.example.com"
+            value: "http://nginx.example.site"
           - name: IDENTITYSERVER_LOGIN_HOMEPAGE
-            value: "https://hdkhoa.example.com"
+            value: "http://nginx.example.site"
           ports:
             - containerPort: 80
       imagePullSecrets:

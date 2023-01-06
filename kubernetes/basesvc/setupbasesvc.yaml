@@ -4,11 +4,30 @@
   ignore_errors: yes
   remote_user: root
   vars_files:
-    - ~/ansible/playbook/variables.yml
+    - ~/ansible/kubernetes/variables.yml
   tasks:
   - name: deploy core services
-    shell: kubectl apply -f ~/ansible/kubernetes/basesvc/core/{{ core_list }}.yaml
+    shell: |
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/authorization.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/commonmasterdata.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/file.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/identityserver.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/notification.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/ruletracking.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/schedule.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/slog.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/tailieu.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/template.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/uniquenumber.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/userorg.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/workflow.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/core/proxy.yaml
   - name: deploy client services
-    shell: kubectl apply -f ~/ansible/kubernetes/basesvc/core/{{ client_list }}.yaml
+    shell: |
+      kubectl apply -f ~/ansible/kubernetes/basesvc/client/admin.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/client/canbo.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/client/user.yaml
+      kubectl apply -f ~/ansible/kubernetes/basesvc/client/proxy.yaml
   - name: deploy api services
-    shell: kubectl apply -f ~/ansible/kubernetes/basesvc/core/{{ api_list }}.yaml 
+    shell: |
+      kubectl apply -f ~/ansible/kubernetes/basesvc/api/canbo.yaml

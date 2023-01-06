@@ -21,9 +21,9 @@ spec:
           - name: SCOPE__ENVIRONMENT
             value: "Test"
           - name: SCOPE__NAME
-            value: "U2210"
+            value: "U2212"
           - name: ETCD__CONFIG
-            value: "authenticated=true;server=http://10.0.68.171:2379;username=root;password=123456a@"
+            value: "authenticated=true;server=http://etcd:2379;username=root;password=123456a@"
           ports:
             - containerPort: 81
       imagePullSecrets:

@@ -29,9 +29,9 @@ metadata:
   labels:
     app: thumbor
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 8000
-      nodePort: 30010
+      targetPort: 8000
   selector:
     app: thumbor

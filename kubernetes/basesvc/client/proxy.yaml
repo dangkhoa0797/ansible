@@ -1,0 +1,57 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: client
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+
+  - match: Host(`k8s-sso.dttt.vn`)
+    kind: Rule
+    services:
+    - name: identityserver-service
+      port: 80
+
+
+
+  - match: Host(`k8s-test.dttt.vn`)
+    kind: Rule
+    services:
+    - name: userclient-service
+      port: 80
+
+    
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/canbo{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: canboclient-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/admin{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: adminclient-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+  - match: Host(`k8s-test.dttt.vn`) && PathPrefix(`/thongbao{regex:$|/.*}`)
+    kind: Rule
+    services:
+    - name: thongbaoclient-service
+      port: 80
+    middlewares:
+      - name: stripprefix
+
+
+
+
+
