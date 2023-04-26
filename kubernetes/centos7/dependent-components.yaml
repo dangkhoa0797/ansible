@@ -1,0 +1,115 @@
+---
+- hosts: kubernetes_cluster
+  ignore_unreachable: yes
+  ignore_errors: yes
+  tasks:
+  - name: hosts file
+    shell: |
+      sudo tee /etc/hosts << EOF
+      127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+      ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+      
+      10.1.20.248             git.ecomedic.vn
+      10.1.20.13 k8s-master
+      10.1.20.12 k8s-worker
+      EOF
+
+  - name: kubernetes repo
+    shell: |
+      sudo tee /etc/yum.repos.d/kubernetes.repo<<EOF
+      [kubernetes]
+      name=Kubernetes
+      baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+      enabled=1
+      gpgcheck=1
+      repo_gpgcheck=1
+      gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+      EOF
+
+  - name: clear
+    shell: sudo yum clean all && sudo yum -y makecache
+
+  - name: install kube
+    shell: sudo yum -y install epel-release vim git curl wget kubelet-1.26.3-0 kubeadm-1.26.3-0 kubectl-1.26.3-0 --disableexcludes=kubernetes
+
+  - name: Remove swapfile from /etc/fstab
+    mount:
+      name: "{{ item }}"
+      fstype: swap
+      state: absent
+    with_items:
+      - swap
+      - none
+
+  - name: Disable swap
+    command: swapoff -a
+    when: ansible_swaptotal_mb > 0
+
+  - name: modprobe
+    shell: |
+      sudo modprobe overlay
+      sudo modprobe br_netfilter
+
+  - name: kubernetes.conf
+    shell: |
+      sudo tee /etc/sysctl.d/kubernetes.conf<<EOF
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.bridge.bridge-nf-call-iptables = 1
+      net.ipv4.ip_forward = 1
+      EOF
+
+  - name: sysctl
+    shell: sudo sysctl --system
+
+  - name: Configure persistent loading of modules
+    shell: |
+      sudo tee /etc/modules-load.d/containerd.conf <<EOF
+      overlay
+      br_netfilter
+      EOF
+
+  - name: Load at runtime
+    shell: |
+      sudo modprobe overlay
+      sudo modprobe br_netfilter
+
+  - name: Ensure sysctl params are set
+    shell: |
+      sudo tee /etc/sysctl.d/kubernetes.conf<<EOF
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.bridge.bridge-nf-call-iptables = 1
+      net.ipv4.ip_forward = 1
+      EOF
+
+  - name: Reload configs
+    shell: sudo sysctl --system
+
+  - name: Install required packages
+    shell: sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+  - name: Add Docker repo
+    shell: sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+  - name: Install containerd
+    shell: sudo yum update -y && yum install -y containerd.io
+
+  - name: Configure containerd and start service
+    shell: |
+      sudo mkdir -p /etc/containerd
+      sudo containerd config default > /etc/containerd/config.toml
+
+  - name: Configure containerd and start service
+    shell: |
+      sudo mkdir -p /etc/containerd
+      sudo containerd config default > /etc/containerd/config.tom
+
+  - name: Configure containerd and start service
+    shell: |
+      sudo systemctl restart containerd
+      sudo systemctl enable containerd
+
+  - name: Configure containerd and start service
+    shell: sudo systemctl disable --now firewalld
+
+  - name: Configure containerd and start service
+    shell: sudo systemctl enable kubelet
