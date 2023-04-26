@@ -1,0 +1,21 @@
+---
+- hosts: k8s-master-crypto
+  ignore_unreachable: yes
+  ignore_errors: yes
+  tasks:
+  - name: create date file
+    ansible.builtin.cron:
+      name: "create date file"
+      minute: "*" #0-59
+      hour: "*" #0-23
+      day: "*" #1-31
+      weekday: "*" #0-6 for Sunday-Saturday
+      job: "date >> date.txt"
+      backup: true
+
+
+
+#- name: delete date file
+#  ansible.builtin.cron:
+#    name: "create date file"
+#    state: absent
