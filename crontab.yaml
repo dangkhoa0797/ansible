@@ -13,9 +13,9 @@
       job: "date >> date.txt"
       backup: true
 
+#  - name: delete date file
+#    ansible.builtin.cron:
+#      name: "create date file"
+#      state: absent
 
-
-#- name: delete date file
-#  ansible.builtin.cron:
-#    name: "create date file"
-#    state: absent
+# crontab -l
