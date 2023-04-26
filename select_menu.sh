@@ -39,7 +39,25 @@ selections=(
 "Selection A"
 "Selection B"
 "Selection C"
+"Quit"
 )
-
+while :
+do
 choose_from_menu "Please make a choice:" selected_choice "${selections[@]}"
-echo "Selected choice: $selected_choice"
+
+    case $selected_choice in
+        "Selection A")
+            echo "you chose choice A"
+            ;;
+        "Selection B")
+            echo "you chose choice B"
+            ;;
+        "Selection C")
+            echo "you chose choice $selected_choice"
+            ;;
+        "Quit")
+            break
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
