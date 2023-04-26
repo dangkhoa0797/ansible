@@ -2,6 +2,7 @@
 - hosts: master
   ignore_unreachable: yes
   ignore_errors: yes
+  become: true
   tasks:
   
   - name: Initialize the Kubernetes cluster using kubeadm
@@ -15,11 +16,11 @@
     shell: "{{ item }}"
     with_items:
       - mkdir -p $HOME/.kube
-      - sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+      - cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
     tags: s1
 
   - name: Setup kubeconfig for  user 2
-    shell: sudo chown $(id -u):$(id -g) $HOME/.kube/config
+    shell: chown $(id -u):$(id -g) $HOME/.kube/config
     tags: s2
 
   - name: Generate join command
