@@ -1,5 +1,5 @@
 #!/bin/bash
-now=`date +%d_%m_%Y_%H:%M:%S`
+now=`date +%d_%m_%Y_%H-%M-%S`
 
 echo_hello () {
     echo "Hello!!!"
