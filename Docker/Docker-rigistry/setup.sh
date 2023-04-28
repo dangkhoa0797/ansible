@@ -4,7 +4,7 @@ services:
   registry:
     image: registry:2
     volumes:
-      - ./registry-data:/var/lib/registry
+      - ./data:/var/lib/registry:rw
     ports:
       - "5000:5000"
     networks:
