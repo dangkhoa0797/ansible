@@ -1,3 +1,5 @@
 {
-  "insecure-registries": ["10.1.20.5:5000"]
+  "insecure-registries": [
+    "registry.host:5000"
+  ]
 }
