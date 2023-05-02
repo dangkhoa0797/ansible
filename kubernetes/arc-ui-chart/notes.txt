@@ -1,0 +1,10 @@
+helm create arc-ui-chart
+cd arc-ui-chart/
+
+helm lint .
+
+helm ls --all
+helm del --purge arc-ui
+helm install --name arc-ui /root/arc/arc-ui-chart/
+helm upgrade -f values.yaml arc-ui /root/arc/arc-ui-chart/
+helm upgrade arc-ui /root/arc/arc-ui-chart/

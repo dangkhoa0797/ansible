@@ -1,0 +1,17 @@
+namespace: arc
+
+replicaCount: 2
+
+image:
+  repository: khoa0797/arck8s
+  tag: 46454
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 80
+  nodePort: 30080
+
+env:
+  name: dev

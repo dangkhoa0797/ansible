@@ -1,1 +1,0 @@
-echo ${PWD##*/} # get name parent folder

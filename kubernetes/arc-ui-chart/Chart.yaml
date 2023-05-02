@@ -1,0 +1,8 @@
+apiVersion: v1
+appVersion: "1.0.0"
+description: A ARC UI Helm chart for Kubernetes
+name: arc-ui-chart
+version: 0.1.0
+maintainers:
+- email: khoahoang@cqtdt.asia
+  name: khoahoang
